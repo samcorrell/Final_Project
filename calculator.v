@@ -3,9 +3,9 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date: 12/03/2024 02:29:45 PM
+// Create Date: 12/08/2024 02:14:34 PM
 // Design Name: 
-// Module Name: calculator
+// Module Name: final
 // Project Name: 
 // Target Devices: 
 // Tool Versions: 
@@ -21,7 +21,7 @@
 
 
 module calculator(
-    input clk, en,
+    input clk, en, order,
     input [2:0] operation,
     input [3:0] a, b,
     output [6:0] seg,
@@ -33,30 +33,49 @@ module calculator(
     reg [11:0] bin = 0;
     wire [15:0] bcd;
     wire rdy;
+    reg [3:0] L, R;
     
+    
+    
+    
+    //operations
     bit4_FA(a,b,0, sum, co);
     comb_mult uut1(a,b,p);
+
+    
+    //display logic
     bin2bcd uut2(clk, en, bin, bcd, rdy);
     lab5 uut3(bcd, clk, seg, an);
     
-    always @(*) begin
+    initial begin
+        L <= a; R <= b;
+    end
+    always @(posedge clk) begin
+    
+        case(order)
+        0:
+            begin L = a; R = b; end
+        1:
+            begin R = a; L = b; end
+        endcase
+        
         case(operation)
         0: //add
-            bin = {7'b0,co,sum};
+            bin <= {7'b0,co,sum};
         1: //subtract
-            bin = a-b;
+            bin <= L-R;
         2: //multiply
-            bin = {4'b0000,p};
+            bin <= {4'b0000,p};
         3: //divide
-            bin = 3;
+            bin <= (L-(L%R))/R;
         4: //and
-        ;
+            bin <= L&R;
         5: //or
-        ;
+            bin <= L|R;
         6: //xor
-        ;
-        7: //nand
-        ;
+            bin <= L^R;
+        7: //divisor
+            bin <= L%R;
         endcase
     end
     

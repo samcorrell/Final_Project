@@ -1,8 +1,8 @@
-Verilog HDL used with Artix-7 FPGA to simulate calculator with 8 operations (add, subtract, multiply, divide, and, or, xor, divisor).
+Verilog HDL used with Artix-7 FPGA to simulate calculator with 8 operations (add, subtract, multiply, divide, and, or, xor, divisor). Allows for two 4-bit input numbers, and has capability to swap numbers relative to operator.
 
 Inputs: 
 - two 4-bit numbers "a" and "b"
-- 1-bit selector bit for order of numbers (left or right of operand) "order"
+- 1-bit selector bit for order of numbers (left or right of operator) "order"
 - 3-bit selector bit to choose which operation "operation"
 - clock and enable "clk" and "en" for BIN2BCD FSM and Multi-Digit Display timing
 
